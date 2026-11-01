@@ -2,7 +2,7 @@
 
 Responsable informatique en alternance et étudiant en Bac+5 Expert en architectures systèmes, réseaux et sécurité. Projets cloud (Azure, Google Cloud), Kubernetes, Windows Server, supervision et SQL Server.
 
-Site en ligne : https://qassim-messili.github.io
+Site en ligne : https://qassimmessili.github.io
 
 ## Contenu
 
