@@ -1,5 +1,9 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Qassim Messili</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Portfolio de Qassim Messili : projets cloud (Azure, GCP), Kubernetes, Windows Server et supervision.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +23,9 @@
   --ok: #1D6B3A;
   --ok-soft: #E0F1E5;
   --tag-key: #586774;
+  --hero-bg: #E3EEEF;
+  --hero-grid: rgba(10, 106, 112, .09);
+  --c-azure: #1D64C8; --c-cont: #6E46C2; --c-sup: #B86200; --c-gcp: #1B7F45; --c-win: #0A7480; --c-db: #B8325F; --c-net: #9A3F12;
   --shadow: 0 1px 2px rgba(21, 33, 43, .06), 0 8px 24px rgba(21, 33, 43, .06);
   --f-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
   --f-body: "Public Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
@@ -31,6 +38,8 @@
     --bg: #0E161D; --surface: #15212A; --ink: #E4ECF1; --muted: #93A4B1; --line: #263642;
     --accent: #5CC5CB; --accent-soft: #143338; --warn: #F0B357; --warn-soft: #3A2A10;
     --ok: #7BD49A; --ok-soft: #17321F; --tag-key: #93A4B1;
+    --hero-bg: #12262C; --hero-grid: rgba(92, 197, 203, .08);
+    --c-azure: #6EA8FF; --c-cont: #B39BFF; --c-sup: #F2AE55; --c-gcp: #6ED19A; --c-win: #5CC5CB; --c-db: #FF8FB1; --c-net: #F49B6C;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
     color-scheme: dark;
   }
@@ -39,10 +48,16 @@
   --bg: #0E161D; --surface: #15212A; --ink: #E4ECF1; --muted: #93A4B1; --line: #263642;
   --accent: #5CC5CB; --accent-soft: #143338; --warn: #F0B357; --warn-soft: #3A2A10;
   --ok: #7BD49A; --ok-soft: #17321F; --tag-key: #93A4B1;
+    --hero-bg: #12262C; --hero-grid: rgba(92, 197, 203, .08);
+    --c-azure: #6EA8FF; --c-cont: #B39BFF; --c-sup: #F2AE55; --c-gcp: #6ED19A; --c-win: #5CC5CB; --c-db: #FF8FB1; --c-net: #F49B6C;
   --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
+html, body { overflow-x: clip; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
 body {
@@ -72,9 +87,25 @@ h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; }
 .nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-4); flex-wrap: wrap; }
 .nav ul a { color: var(--muted); text-decoration: none; font-size: .92rem; }
 .nav ul a:hover { color: var(--ink); }
+@media (max-width: 40rem) {
+  .nav ul { flex-wrap: nowrap; overflow-x: auto; width: 100%; min-width: 0; scrollbar-width: none; padding-bottom: 2px; }
+  .nav ul li { flex: none; }
+  section { scroll-margin-top: 6.5rem; }
+}
 
 /* En-tête */
-.hero { padding-block: var(--s-8) var(--s-7); display: grid; gap: var(--s-5); }
+.hero { position: relative; isolation: isolate; padding-block: var(--s-8) var(--s-7); display: grid; gap: var(--s-5); }
+.hero::before {
+  content: ""; position: absolute; z-index: -1; top: 0; bottom: 0;
+  left: calc(50% - 50vw); right: calc(50% - 50vw);
+  background-color: var(--hero-bg);
+  background-image: linear-gradient(var(--hero-grid) 1px, transparent 1px), linear-gradient(90deg, var(--hero-grid) 1px, transparent 1px);
+  background-size: 32px 32px; border-bottom: 1px solid var(--line);
+}
+.hero .tag .k { color: var(--accent); }
+.hero .domains { display: flex; flex-wrap: wrap; gap: var(--s-2) var(--s-4); list-style: none; margin: 0; padding: 0; font-size: .88rem; color: var(--muted); }
+.hero .domains li { display: inline-flex; align-items: center; gap: .45rem; }
+.dot { width: .6rem; height: .6rem; border-radius: 2px; background: var(--dc, var(--accent)); flex: none; }
 .hero .eyebrow { font-family: var(--f-mono); font-size: .8rem; color: var(--muted); letter-spacing: .04em; }
 .hero h1 { font-size: clamp(2.6rem, 7vw, 4.6rem); font-weight: 800; font-stretch: 78%; line-height: .95; letter-spacing: -.01em; }
 .hero .lead { font-size: 1.15rem; max-width: 40rem; color: var(--ink); margin: 0; }
@@ -106,15 +137,17 @@ section { padding-block: var(--s-7); border-top: 1px solid var(--line); scroll-m
   font: 500 .85rem/1 var(--f-body); padding: .5rem .8rem; border-radius: 999px; cursor: pointer;
   border: 1px solid var(--line); background: var(--surface); color: var(--muted);
 }
-.chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
+.chip { display: inline-flex; align-items: center; gap: .4rem; }
+.chip[aria-pressed="true"] { border-color: var(--dc, var(--accent)); background: var(--accent-soft); color: var(--ink); box-shadow: inset 0 0 0 1px var(--dc, var(--accent)); }
 .chip .n { font-family: var(--f-mono); font-size: .75rem; margin-left: .3rem; color: var(--muted); }
 
 /* Fiches projets */
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); gap: var(--s-4); }
 .card {
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--dc, var(--accent)); border-radius: var(--r);
   padding: var(--s-5); display: flex; flex-direction: column; gap: var(--s-3); min-width: 0;
 }
+.card .dom { display: inline-flex; align-items: center; gap: .4rem; color: var(--dc); font-weight: 500; }
 .card .meta { display: flex; justify-content: space-between; gap: var(--s-2); align-items: center; flex-wrap: wrap; font-family: var(--f-mono); font-size: .75rem; color: var(--muted); }
 .status { font-family: var(--f-mono); font-size: .72rem; padding: .2rem .45rem; border-radius: 4px; background: var(--ok-soft); color: var(--ok); }
 .status.limit { background: var(--warn-soft); color: var(--warn); }
@@ -140,7 +173,7 @@ dialog { overflow-x: hidden; }
 .dlg-head h3 { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 700; font-stretch: 85%; line-height: 1.15; }
 .close { flex: none; background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); color: var(--ink); width: 2.2rem; height: 2.2rem; cursor: pointer; font-size: 1.1rem; }
 .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); gap: var(--s-3); margin: 0; }
-.facts div { border-left: 2px solid var(--accent); padding-left: var(--s-3); }
+.facts div { border-left: 2px solid var(--dc, var(--accent)); padding-left: var(--s-3); }
 .facts dt { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
 .facts dd { margin: 0; font-weight: 500; }
 .block h4 { font-family: var(--f-display); font-size: 1rem; font-weight: 700; letter-spacing: .02em; margin: 0 0 var(--s-2); }
@@ -156,16 +189,20 @@ dialog { overflow-x: hidden; }
 
 /* Compétences */
 .skills { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: var(--s-5) var(--s-6); }
-.skills h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: var(--s-2); }
+.skills > div { border-left: 3px solid var(--dc); padding-left: var(--s-4); }
+.skills h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: var(--s-2); color: var(--dc); }
 .skills ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-2); }
 .skills li { font-size: .9rem; border: 1px solid var(--line); background: var(--surface); padding: .25rem .55rem; border-radius: 4px; }
 
 /* Parcours */
+.parcours-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr)); gap: var(--s-5) var(--s-7); }
+.parcours-cols > div { min-width: 0; }
+.parcours-cols h3.col { font-size: .78rem; font-family: var(--f-mono); font-weight: 500; text-transform: uppercase; letter-spacing: .1em; color: var(--accent); margin-bottom: var(--s-2); }
 .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
-.timeline li { display: grid; grid-template-columns: 9.5rem 1fr; gap: var(--s-4); padding-block: var(--s-4); border-bottom: 1px solid var(--line); }
+.timeline li { display: grid; grid-template-columns: 8.5rem 1fr; gap: var(--s-4); padding-block: var(--s-4); border-bottom: 1px solid var(--line); }
 .timeline li:last-child { border-bottom: 0; }
 .timeline .when { font-family: var(--f-mono); font-size: .8rem; color: var(--muted); padding-top: .2rem; font-variant-numeric: tabular-nums; }
-.timeline h3 { font-size: 1.1rem; font-weight: 700; font-stretch: 90%; }
+.timeline h4.poste { font-family: var(--f-display); font-size: 1.05rem; font-weight: 700; font-stretch: 90%; margin: 0; text-wrap: balance; }
 .timeline .org { color: var(--accent); font-weight: 600; }
 .timeline p { margin: .25rem 0 0; color: var(--muted); max-width: 60ch; }
 @media (max-width: 34rem) { .timeline li { grid-template-columns: 1fr; gap: var(--s-1); } }
@@ -185,6 +222,8 @@ dialog { overflow-x: hidden; }
 .copied { font-size: .85rem; color: var(--ok); }
 footer { padding-block: var(--s-6); border-top: 1px solid var(--line); color: var(--muted); font-size: .85rem; }
 </style>
+</head>
+<body>
 
 <nav class="nav" aria-label="Navigation principale">
   <div class="wrap">
@@ -209,8 +248,9 @@ footer { padding-block: var(--s-6); border-top: 1px solid var(--line); color: va
       <li class="tag"><span class="k">formation</span>bac+5</li>
       <li class="tag"><span class="k">cible</span>ingenieur-cloud</li>
       <li class="tag"><span class="k">region</span>lyon</li>
-      <li class="tag"><span class="k">mobilite</span>france,international</li>
+      <li class="tag"><span class="k">mobilite</span>france,suisse,international</li>
     </ul>
+    <ul class="domains" id="hero-domains" aria-label="Domaines des projets"></ul>
     <div class="actions">
       <a class="btn" href="#projets">Voir les projets</a>
       <a class="btn ghost" href="https://www.linkedin.com/in/qassim-messili" target="_blank" rel="noopener">Profil LinkedIn</a>
@@ -236,7 +276,10 @@ footer { padding-block: var(--s-6); border-top: 1px solid var(--line); color: va
       <h2 id="parcours-titre">Parcours</h2>
       <p>Après un premier parcours en commerce et marketing, je me suis reconverti dans l'informatique en 2023.</p>
     </div>
-    <ol class="timeline" id="timeline"></ol>
+    <div class="parcours-cols">
+      <div><h3 class="col">Expérience professionnelle</h3><ol class="timeline" id="tl-exp"></ol></div>
+      <div><h3 class="col">Formation</h3><ol class="timeline" id="tl-form"></ol></div>
+    </div>
   </section>
 
   <section id="certifications" aria-labelledby="certifications-titre">
@@ -257,6 +300,9 @@ footer { padding-block: var(--s-6); border-top: 1px solid var(--line); color: va
       </div>
       <div class="contact-row">
         <a href="https://www.linkedin.com/in/qassim-messili" target="_blank" rel="noopener">linkedin.com/in/qassim-messili</a>
+      </div>
+      <div class="contact-row">
+        <a href="https://github.com/qassimMessili" target="_blank" rel="noopener">github.com/qassimMessili</a>
       </div>
     </div>
   </section>
@@ -578,12 +624,14 @@ const COMPETENCES = [
 ];
 
 const PARCOURS = [
-  { quand: "Oct. 2026 – auj.", poste: "Responsable informatique (alternance)", org: "Sagem Networks", texte: "Référent informatique d'un groupe de trois sociétés : audit et cartographie du SI, feuille de route, Microsoft 365 et Active Directory, sécurisation des accès et pilotage des prestataires." },
-  { quand: "Oct. 2026 – 2028", poste: "Bac+5 Expert en architectures systèmes, réseaux et sécurité", org: "IGENSIA Tech (IPI Lyon)", texte: "Titre RNCP niveau 7 en alternance : architecture, cybersécurité, cloud et orchestration de conteneurs." },
-  { quand: "Sept. 2025 – oct. 2026", poste: "Administrateur réseau et systèmes (alternance)", org: "Interway", texte: "Environ 30 serveurs par mois mis en production pour des grands comptes, virtualisation Hyper-V, masterisation et SD-WAN inter-sites." },
-  { quand: "Sept. 2025 – oct. 2026", poste: "Bac+3 Administrateur systèmes, réseaux et bases de données", org: "IGENSIA Tech (IPI Lyon)", texte: "Titre RNCP niveau 6 obtenu en alternance." },
-  { quand: "Janv. – févr. 2025", poste: "Technicien support et cloud (stage)", org: "Extia", texte: "Comptes et licences Microsoft 365 pour plus de 100 utilisateurs via Entra ID, Intune, accès conditionnel et MFA." },
-  { quand: "Mai 2023 – févr. 2025", poste: "Technicien support et gestion de parc", org: "Hospices Civils de Lyon", texte: "Support N1 et ticketing (environ 20 demandes par jour), cycle de vie du matériel et suivi des prestataires." }
+  { type: "exp", quand: "Oct. 2026 – auj.", poste: "Responsable informatique (alternance)", org: "Sagem Networks", texte: "Référent informatique d'un groupe de trois sociétés : audit et cartographie du SI, feuille de route, Microsoft 365 et Active Directory, sécurisation des accès et pilotage des prestataires." },
+  { type: "exp", quand: "Sept. 2025 – oct. 2026", poste: "Administrateur réseau et systèmes (alternance)", org: "Interway", texte: "Environ 30 serveurs par mois mis en production pour des grands comptes, virtualisation Hyper-V, masterisation et SD-WAN inter-sites." },
+  { type: "exp", quand: "Janv. – févr. 2025", poste: "Technicien support et cloud (stage)", org: "Extia", texte: "Comptes et licences Microsoft 365 pour plus de 100 utilisateurs via Entra ID, Intune, accès conditionnel et MFA." },
+  { type: "exp", quand: "Mai 2023 – févr. 2025", poste: "Technicien support et gestion de parc", org: "Hospices Civils de Lyon", texte: "Support N1 et ticketing (environ 20 demandes par jour), cycle de vie du matériel et suivi des prestataires." },
+  { type: "form", quand: "Oct. 2026 – 2028", poste: "Bac+5 Expert en architectures systèmes, réseaux et sécurité", org: "IGENSIA Tech (IPI Lyon)", texte: "Titre RNCP niveau 7 en alternance : architecture, cybersécurité, cloud et orchestration de conteneurs." },
+  { type: "form", quand: "Sept. 2025 – oct. 2026", poste: "Bac+3 Administrateur systèmes, réseaux et bases de données", org: "IGENSIA Tech (IPI Lyon)", texte: "Titre RNCP niveau 6 obtenu en alternance." },
+  { type: "form", quand: "2024 – 2025", poste: "Graduate Technicien supérieur systèmes et réseaux", org: "Studi", texte: "Postes de travail et serveurs Windows, Linux et macOS, réseaux et support." },
+  { type: "form", quand: "2016 – 2023", poste: "Commerce et marketing", org: "BTS NRC, Bachelor, Master ISCOD", texte: "Premier parcours avant la reconversion : relation client, gestion de projet et communication." }
 ];
 
 const CERTIFICATIONS = [
@@ -599,19 +647,26 @@ const $ = (s, el = document) => el.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const slugTech = t => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9.+]+/g, "-").replace(/^-|-$/g, "");
 
+const COULEURS = {
+  "Cloud Azure": "--c-azure", "Conteneurs": "--c-cont", "Supervision": "--c-sup",
+  "Google Cloud": "--c-gcp", "Windows Server": "--c-win", "Bases de données": "--c-db",
+  "Cloud et identités": "--c-azure", "Systèmes": "--c-win", "Réseau et sécurité": "--c-net"
+};
+const dc = d => COULEURS[d] ? `--dc: var(${COULEURS[d]})` : "";
+
 let filtre = "Tous";
 function renderFilters() {
   const domaines = ["Tous", ...new Set(PROJETS.map(p => p.domaine))];
   $("#filters").innerHTML = domaines.map(d => {
     const n = d === "Tous" ? PROJETS.length : PROJETS.filter(p => p.domaine === d).length;
-    return `<button type="button" class="chip" aria-pressed="${d === filtre}" data-d="${esc(d)}">${esc(d)}<span class="n">${n}</span></button>`;
+    return `<button type="button" class="chip" aria-pressed="${d === filtre}" data-d="${esc(d)}" style="${dc(d)}">${d === "Tous" ? "" : '<span class="dot"></span>'}${esc(d)}<span class="n">${n}</span></button>`;
   }).join("");
 }
 function renderGrid() {
   const list = PROJETS.filter(p => filtre === "Tous" || p.domaine === filtre);
   $("#grid").innerHTML = list.map(p => `
-    <article class="card">
-      <div class="meta"><span>${esc(p.domaine)} · ${esc(p.date)}</span><span class="status${p.limite ? " limit" : ""}">${esc(p.statut)}</span></div>
+    <article class="card" style="${dc(p.domaine)}">
+      <div class="meta"><span><span class="dom"><span class="dot"></span>${esc(p.domaine)}</span> · ${esc(p.date)}</span><span class="status${p.limite ? " limit" : ""}">${esc(p.statut)}</span></div>
       <h3>${esc(p.titre)}</h3>
       <p>${esc(p.resume)}</p>
       <ul class="points">${p.points.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
@@ -649,6 +704,7 @@ const dlg = $("#fiche");
 function openFiche(id, push = true) {
   const p = PROJETS.find(x => x.id === id);
   if (!p) return;
+  dlg.setAttribute("style", dc(p.domaine));
   dlg.innerHTML = `
     <div class="dlg">
       <div class="dlg-head">
@@ -693,8 +749,11 @@ $("#grid").addEventListener("click", e => {
   const b = e.target.closest(".open"); if (b) openFiche(b.dataset.id);
 });
 
-$("#skills").innerHTML = COMPETENCES.map(c => `<div><h3>${esc(c.titre)}</h3><ul>${c.items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div>`).join("");
-$("#timeline").innerHTML = PARCOURS.map(p => `<li><span class="when">${esc(p.quand)}</span><div><h3>${esc(p.poste)}</h3><span class="org">${esc(p.org)}</span><p>${esc(p.texte)}</p></div></li>`).join("");
+$("#skills").innerHTML = COMPETENCES.map(c => `<div style="${dc(c.titre)}"><h3>${esc(c.titre)}</h3><ul>${c.items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div>`).join("");
+const tl = t => PARCOURS.filter(p => p.type === t).map(p => `<li><span class="when">${esc(p.quand)}</span><div><h4 class="poste">${esc(p.poste)}</h4><span class="org">${esc(p.org)}</span><p>${esc(p.texte)}</p></div></li>`).join("");
+$("#tl-exp").innerHTML = tl("exp");
+$("#tl-form").innerHTML = tl("form");
+$("#hero-domains").innerHTML = [...new Set(PROJETS.map(p => p.domaine))].map(d => `<li style="${dc(d)}"><span class="dot"></span>${esc(d)}</li>`).join("");
 $("#certs").innerHTML = CERTIFICATIONS.map(c => `<li class="${c.prep ? "prep" : ""}"><span class="issuer">${esc(c.org)}</span><span class="name">${esc(c.nom)}</span><span class="date">${esc(c.date)}</span></li>`).join("");
 
 $("#copy-mail").addEventListener("click", () => {
@@ -715,3 +774,6 @@ function fromHash() {
 window.addEventListener("hashchange", fromHash);
 fromHash();
 </script>
+
+</body>
+</html>
