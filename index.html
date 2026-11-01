@@ -1,0 +1,717 @@
+<title>Qassim Messili</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Portfolio de Qassim Messili : projets cloud (Azure, GCP), Kubernetes, Windows Server et supervision.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Mise en page : une colonne de lecture, en-tête « fiche de ressource » avec étiquettes clé=valeur, projets en grille de fiches techniques */
+:root {
+  --bg: #F2F4F5;
+  --surface: #FFFFFF;
+  --ink: #15212B;
+  --muted: #586774;
+  --line: #D6DDE2;
+  --accent: #0A6A70;
+  --accent-soft: #DDEFEF;
+  --warn: #8A5300;
+  --warn-soft: #FBEFD9;
+  --ok: #1D6B3A;
+  --ok-soft: #E0F1E5;
+  --tag-key: #586774;
+  --shadow: 0 1px 2px rgba(21, 33, 43, .06), 0 8px 24px rgba(21, 33, 43, .06);
+  --f-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Public Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --s-1: .25rem; --s-2: .5rem; --s-3: .75rem; --s-4: 1rem; --s-5: 1.5rem; --s-6: 2rem; --s-7: 3rem; --s-8: 4.5rem;
+  --r: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E161D; --surface: #15212A; --ink: #E4ECF1; --muted: #93A4B1; --line: #263642;
+    --accent: #5CC5CB; --accent-soft: #143338; --warn: #F0B357; --warn-soft: #3A2A10;
+    --ok: #7BD49A; --ok-soft: #17321F; --tag-key: #93A4B1;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E161D; --surface: #15212A; --ink: #E4ECF1; --muted: #93A4B1; --line: #263642;
+  --accent: #5CC5CB; --accent-soft: #143338; --warn: #F0B357; --warn-soft: #3A2A10;
+  --ok: #7BD49A; --ok-soft: #17321F; --tag-key: #93A4B1;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 400 1rem/1.6 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.wrap { max-width: 68rem; margin: 0 auto; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; }
+.mono { font-family: var(--f-mono); }
+
+/* Navigation */
+.nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: var(--bg); border-bottom: 1px solid var(--line);
+  margin-left: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  margin-right: calc(-1 * max(16px, env(safe-area-inset-right, 0px)));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); padding-block: var(--s-3); flex-wrap: wrap; }
+.nav .brand { font-family: var(--f-display); font-weight: 700; font-stretch: 85%; letter-spacing: .01em; color: var(--ink); text-decoration: none; }
+.nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: var(--s-4); flex-wrap: wrap; }
+.nav ul a { color: var(--muted); text-decoration: none; font-size: .92rem; }
+.nav ul a:hover { color: var(--ink); }
+
+/* En-tête */
+.hero { padding-block: var(--s-8) var(--s-7); display: grid; gap: var(--s-5); }
+.hero .eyebrow { font-family: var(--f-mono); font-size: .8rem; color: var(--muted); letter-spacing: .04em; }
+.hero h1 { font-size: clamp(2.6rem, 7vw, 4.6rem); font-weight: 800; font-stretch: 78%; line-height: .95; letter-spacing: -.01em; }
+.hero .lead { font-size: 1.15rem; max-width: 40rem; color: var(--ink); margin: 0; }
+.tags { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: 0; padding: 0; list-style: none; }
+.tag {
+  font-family: var(--f-mono); font-size: .78rem; line-height: 1.3;
+  border: 1px solid var(--line); background: var(--surface); border-radius: 4px;
+  padding: .3rem .5rem; color: var(--ink); white-space: nowrap;
+}
+.tag .k { color: var(--tag-key); }
+.tag .k::after { content: "="; color: var(--tag-key); }
+.hero .actions { display: flex; gap: var(--s-3); flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: .4rem; padding: .6rem 1rem; border-radius: var(--r);
+  font: 600 .92rem/1 var(--f-body); text-decoration: none; cursor: pointer;
+  border: 1px solid var(--accent); background: var(--accent); color: var(--bg);
+}
+.btn.ghost { background: transparent; color: var(--accent); }
+
+/* Sections */
+section { padding-block: var(--s-7); border-top: 1px solid var(--line); scroll-margin-top: 4rem; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-4); flex-wrap: wrap; margin-bottom: var(--s-5); }
+.sec-head h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 700; font-stretch: 85%; }
+.sec-head p { margin: 0; color: var(--muted); max-width: 36rem; }
+
+/* Filtres */
+.filters { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-bottom: var(--s-5); }
+.chip {
+  font: 500 .85rem/1 var(--f-body); padding: .5rem .8rem; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+}
+.chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
+.chip .n { font-family: var(--f-mono); font-size: .75rem; margin-left: .3rem; color: var(--muted); }
+
+/* Fiches projets */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); gap: var(--s-4); }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+  padding: var(--s-5); display: flex; flex-direction: column; gap: var(--s-3); min-width: 0;
+}
+.card .meta { display: flex; justify-content: space-between; gap: var(--s-2); align-items: center; flex-wrap: wrap; font-family: var(--f-mono); font-size: .75rem; color: var(--muted); }
+.status { font-family: var(--f-mono); font-size: .72rem; padding: .2rem .45rem; border-radius: 4px; background: var(--ok-soft); color: var(--ok); }
+.status.limit { background: var(--warn-soft); color: var(--warn); }
+.card h3 { font-size: 1.3rem; font-weight: 700; font-stretch: 88%; line-height: 1.2; }
+.card p { margin: 0; color: var(--muted); }
+.card ul.points { margin: 0; padding-left: 1.1rem; display: grid; gap: .25rem; font-size: .95rem; }
+.card .tags { margin-top: auto; padding-top: var(--s-2); }
+.card .tag { font-size: .72rem; }
+.card .open { align-self: flex-start; background: none; border: 0; padding: 0; color: var(--accent); font: 600 .92rem/1.4 var(--f-body); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+
+/* Fiche détaillée */
+dialog {
+  width: min(52rem, calc(100vw - 2rem)); max-height: calc(100dvh - 2rem);
+  border: 1px solid var(--line); border-radius: var(--r); padding: 0;
+  background: var(--surface); color: var(--ink); box-shadow: var(--shadow);
+}
+dialog::backdrop { background: rgba(10, 18, 24, .55); }
+.dlg { padding: var(--s-6) var(--s-5) var(--s-5); display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-5); }
+.dlg > * { min-width: 0; }
+dialog { overflow-x: hidden; }
+.dlg-head > div { min-width: 0; }
+.dlg-head { display: flex; justify-content: space-between; gap: var(--s-4); align-items: flex-start; }
+.dlg-head h3 { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 700; font-stretch: 85%; line-height: 1.15; }
+.close { flex: none; background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); color: var(--ink); width: 2.2rem; height: 2.2rem; cursor: pointer; font-size: 1.1rem; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); gap: var(--s-3); margin: 0; }
+.facts div { border-left: 2px solid var(--accent); padding-left: var(--s-3); }
+.facts dt { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.facts dd { margin: 0; font-weight: 500; }
+.block h4 { font-family: var(--f-display); font-size: 1rem; font-weight: 700; letter-spacing: .02em; margin: 0 0 var(--s-2); }
+.block p { margin: 0; max-width: 65ch; }
+.block ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .35rem; max-width: 65ch; }
+.issue { border: 1px solid var(--line); border-radius: var(--r); padding: var(--s-3) var(--s-4); display: grid; gap: .2rem; }
+.issue + .issue { margin-top: var(--s-2); }
+.issue b { font-weight: 600; }
+.issue.limit { border-color: var(--warn); background: var(--warn-soft); }
+.diagram { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--bg); padding: var(--s-3); }
+.diagram svg { display: block; min-width: 34rem; width: 100%; height: auto; }
+.docs { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+
+/* Compétences */
+.skills { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: var(--s-5) var(--s-6); }
+.skills h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: var(--s-2); }
+.skills ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.skills li { font-size: .9rem; border: 1px solid var(--line); background: var(--surface); padding: .25rem .55rem; border-radius: 4px; }
+
+/* Parcours */
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.timeline li { display: grid; grid-template-columns: 9.5rem 1fr; gap: var(--s-4); padding-block: var(--s-4); border-bottom: 1px solid var(--line); }
+.timeline li:last-child { border-bottom: 0; }
+.timeline .when { font-family: var(--f-mono); font-size: .8rem; color: var(--muted); padding-top: .2rem; font-variant-numeric: tabular-nums; }
+.timeline h3 { font-size: 1.1rem; font-weight: 700; font-stretch: 90%; }
+.timeline .org { color: var(--accent); font-weight: 600; }
+.timeline p { margin: .25rem 0 0; color: var(--muted); max-width: 60ch; }
+@media (max-width: 34rem) { .timeline li { grid-template-columns: 1fr; gap: var(--s-1); } }
+
+/* Certifications */
+.certs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); gap: var(--s-3); list-style: none; margin: 0; padding: 0; }
+.certs li { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: var(--s-4); display: grid; gap: .2rem; }
+.certs .issuer { font-family: var(--f-mono); font-size: .75rem; color: var(--muted); }
+.certs .name { font-weight: 600; }
+.certs .date { font-size: .85rem; color: var(--muted); }
+.certs li.prep { border-style: dashed; }
+
+/* Contact */
+.contact { display: grid; gap: var(--s-4); }
+.contact-row { display: flex; flex-wrap: wrap; gap: var(--s-3); align-items: center; }
+.contact code { font-family: var(--f-mono); font-size: 1rem; background: var(--surface); border: 1px solid var(--line); padding: .45rem .7rem; border-radius: var(--r); user-select: all; }
+.copied { font-size: .85rem; color: var(--ok); }
+footer { padding-block: var(--s-6); border-top: 1px solid var(--line); color: var(--muted); font-size: .85rem; }
+</style>
+
+<nav class="nav" aria-label="Navigation principale">
+  <div class="wrap">
+    <a class="brand" href="#top">Qassim Messili</a>
+    <ul>
+      <li><a href="#projets">Projets</a></li>
+      <li><a href="#competences">Compétences</a></li>
+      <li><a href="#parcours">Parcours</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap" id="top">
+  <header class="hero">
+    <span class="eyebrow">Systèmes, réseaux et cloud · Lyon</span>
+    <h1>Qassim Messili</h1>
+    <p class="lead">Responsable informatique en alternance chez Sagem Networks et étudiant en Bac+5 Expert en architectures systèmes, réseaux et sécurité. Je me spécialise dans le cloud Microsoft Azure pour évoluer vers un poste d'ingénieur cloud.</p>
+    <ul class="tags" aria-label="Profil en bref">
+      <li class="tag"><span class="k">role</span>responsable-informatique</li>
+      <li class="tag"><span class="k">formation</span>bac+5</li>
+      <li class="tag"><span class="k">cible</span>ingenieur-cloud</li>
+      <li class="tag"><span class="k">region</span>lyon</li>
+      <li class="tag"><span class="k">mobilite</span>france,international</li>
+    </ul>
+    <div class="actions">
+      <a class="btn" href="#projets">Voir les projets</a>
+      <a class="btn ghost" href="https://www.linkedin.com/in/qassim-messili" target="_blank" rel="noopener">Profil LinkedIn</a>
+    </div>
+  </header>
+
+  <section id="projets" aria-labelledby="projets-titre">
+    <div class="sec-head">
+      <h2 id="projets-titre">Projets</h2>
+      <p>Travaux réalisés en formation, en lab ou sur des abonnements cloud de test. Chaque fiche renvoie au compte rendu complet.</p>
+    </div>
+    <div class="filters" id="filters" role="group" aria-label="Filtrer par domaine"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="competences" aria-labelledby="competences-titre">
+    <div class="sec-head"><h2 id="competences-titre">Compétences</h2></div>
+    <div class="skills" id="skills"></div>
+  </section>
+
+  <section id="parcours" aria-labelledby="parcours-titre">
+    <div class="sec-head">
+      <h2 id="parcours-titre">Parcours</h2>
+      <p>Après un premier parcours en commerce et marketing, je me suis reconverti dans l'informatique en 2023.</p>
+    </div>
+    <ol class="timeline" id="timeline"></ol>
+  </section>
+
+  <section id="certifications" aria-labelledby="certifications-titre">
+    <div class="sec-head"><h2 id="certifications-titre">Certifications</h2></div>
+    <ul class="certs" id="certs"></ul>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-titre">
+    <div class="sec-head">
+      <h2 id="contact-titre">Contact</h2>
+      <p>Ouvert aux échanges avec les professionnels du cloud et de l'infrastructure.</p>
+    </div>
+    <div class="contact">
+      <div class="contact-row">
+        <code id="mail" data-u="qmessili" data-d="gmail.com">qmessili [at] gmail.com</code>
+        <button class="btn ghost" type="button" id="copy-mail">Copier l'adresse</button>
+        <span class="copied" id="copied" role="status" hidden>Adresse copiée</span>
+      </div>
+      <div class="contact-row">
+        <a href="https://www.linkedin.com/in/qassim-messili" target="_blank" rel="noopener">linkedin.com/in/qassim-messili</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Qassim Messili · Portfolio mis à jour en novembre 2026. Les captures des comptes rendus ont été floutées : adresses IP publiques, identifiants et mots de passe.</div>
+</footer>
+
+<dialog id="fiche" aria-labelledby="fiche-titre"></dialog>
+
+<script>
+/* =====================================================================
+   PROJETS
+   Pour ajouter un projet : copier un bloc { ... } ci-dessous, le coller
+   à la suite et modifier les textes. Les PDF vont dans le dossier
+   comptes-rendus/. Le schéma (diagram) est facultatif : chaque colonne
+   est une étape, chaque étape contient une ou plusieurs boîtes.
+   ===================================================================== */
+const PROJETS = [
+  {
+    id: "azure-migration",
+    domaine: "Cloud Azure",
+    titre: "Migration d'un SI vers Azure : gouvernance, IaaS, PaaS et FinOps",
+    date: "Octobre 2026",
+    cadre: "Bac+5 · équipe de 4",
+    statut: "Terminé",
+    resume: "Préparer la migration d'un loueur de matériel BTP (45 agences, 600 salariés) dont les serveurs arrivent en fin de garantie dans 9 mois, avec trois exigences : chaque ressource rattachée à un centre de coût, aucune facture surprise, des données dans l'Union européenne.",
+    points: [
+      "Stratégie de migration 6R pour 8 applications et plan en 3 étapes sur 9 mois",
+      "Gouvernance appliquée automatiquement : Azure Policy, étiquettes et budget avec alertes",
+      "Maquettes IaaS (VM Linux) et PaaS (App Service), archives sur Blob Storage"
+    ],
+    role: "Projet réalisé sur mon abonnement Azure. J'ai attribué aux trois autres membres le rôle Contributeur sur le seul groupe de ressources (moindre privilège) : ils pouvaient créer les ressources du TP sans toucher aux stratégies, au budget ni aux droits.",
+    realisations: [
+      "Analyse des 8 applications avec la méthode 6R (Rehost, Replatform, Repurchase, Retire, Retain) et matrice des responsabilités IaaS / PaaS",
+      "Convention de nommage et 6 étiquettes (projet, propriétaire, centre de coût, date de fin…) sur le groupe de ressources",
+      "Stratégie « Allowed locations » (effet Deny) pour garder les données dans l'UE, et stratégie d'héritage du centre de coût (effet Modify) avec identité managée",
+      "Budget mensuel avec alertes à 50, 80 et 100 % du réel et alerte sur la prévision",
+      "VM Ubuntu sans port SSH ouvert : nginx installé par Run Command, seul le port 80 ouvert dans le NSG",
+      "Site vitrine publié sur App Service en HTTPS, sans certificat à gérer",
+      "Compte de stockage sécurisé (TLS 1.2, accès anonyme interdit) et contrat déplacé au niveau Archive",
+      "Calculs de coûts, de disponibilité composite et matrice RACI, puis suppression complète de l'environnement"
+    ],
+    difficultes: [
+      { pb: "Aucune taille de VM de la série B disponible en Germany West Central pour l'abonnement étudiant.", sol: "Vérification des tailles disponibles par région en CLI, VM créée en Spain Central (UE) et stratégie de régions mise à jour." },
+      { pb: "Arrêt automatique de la VM impossible : le service n'existe pas en Spain Central.", sol: "Libération manuelle ; en production, runbook Azure Automation ou solution Start/Stop VMs v2." },
+      { pb: "Niveau Archive refusé pour le stockage en Spain Central.", sol: "Compte d'archives recréé en Germany West Central, avec les mêmes paramètres de sécurité." }
+    ],
+    resultat: "Toute création hors des régions autorisées a été refusée par la stratégie, et le centre de coût a été ajouté sans intervention sur chaque ressource. Coût estimé de la VM : 13,62 € par mois allumée en continu, 8,25 € en heures ouvrées.",
+    technos: ["Azure Policy", "Azure CLI", "RBAC", "App Service", "Blob Storage", "NSG", "FinOps"],
+    diagram: [
+      [{ t: "Groupe de ressources", s: "étiquettes · budget" }],
+      [{ t: "Azure Policy", s: "régions UE (Deny)" }, { t: "Azure Policy", s: "centre de coût (Modify)" }],
+      [{ t: "VM Ubuntu", s: "IaaS · Spain Central" }, { t: "App Service", s: "PaaS · HTTPS" }, { t: "Blob Storage", s: "Archive · Allemagne" }]
+    ],
+    docs: [{ label: "Compte rendu", file: "comptes-rendus/01_Azure_Migration_Gouvernance_IaaS_PaaS.pdf" }]
+  },
+  {
+    id: "kubernetes",
+    domaine: "Conteneurs",
+    titre: "Kubernetes : du cluster kubeadm à une application résiliente",
+    date: "Octobre 2026",
+    cadre: "Bac+5 · 3 TP · individuel",
+    statut: "Terminé",
+    resume: "Monter un cluster Kubernetes à la main sur deux VM Ubuntu, y déployer une application en microservices (5 composants, 3 langages), puis la rendre prête pour la production.",
+    points: [
+      "Cluster kubeadm à 2 nœuds avec containerd et Calico, sans outil d'installation clé en main",
+      "Application exposée par Ingress, mise à jour sans coupure et retour arrière",
+      "Configuration, sondes de santé, limites de ressources et stockage persistant"
+    ],
+    role: "Travail individuel sur deux VM hébergées sur l'ESXi de l'école.",
+    realisations: [
+      "Préparation des nœuds (swap, modules noyau, sysctl), containerd et Kubernetes v1.34 installés avec kubeadm",
+      "Réseau des pods Calico choisi pour ne chevaucher ni le réseau des nœuds ni celui des services",
+      "Diagnostic de trois pods volontairement cassés : image introuvable, plantage au démarrage, configuration manquante",
+      "Déploiement de example-voting-app : Deployments et Services pour 5 composants, Ingress NGINX avec deux noms de site",
+      "Mise à jour progressive avec maxUnavailable: 0, échec volontaire puis rollout undo sans coupure du site",
+      "ConfigMap et Secret, sondes startup, readiness et liveness, requests et limits, LimitRange et ResourceQuota",
+      "Base PostgreSQL passée en StatefulSet avec volume persistant, puis PodDisruptionBudget pour les maintenances"
+    ],
+    difficultes: [
+      { pb: "Les votes étaient perdus à chaque redémarrage de la base de données.", sol: "Volume persistant (PVC et StorageClass), puis StatefulSet pour la base." },
+      { pb: "Création de l'Ingress refusée par le webhook de validation.", sol: "Le contrôleur n'était pas encore prêt : attente de sa disponibilité puis nouvelle application." },
+      { pb: "Bonus MetalLB demandé par l'énoncé.", sol: "Non réalisé et justifié : aucune plage d'adresses libre hors DHCP sur le réseau de l'école." }
+    ],
+    resultat: "Deux nœuds Ready, une application accessible par ses noms de site, qui survit aux mises à jour ratées, au redémarrage de sa base et aux maintenances de nœud.",
+    technos: ["Kubernetes", "kubeadm", "containerd", "Calico", "Ingress NGINX", "StatefulSet", "Linux"],
+    diagram: [
+      [{ t: "Ingress NGINX", s: "vote.local · result.local" }],
+      [{ t: "vote", s: "Python" }, { t: "result", s: "Node.js" }],
+      [{ t: "redis", s: "file d'attente" }, { t: "worker", s: ".NET" }],
+      [{ t: "PostgreSQL", s: "StatefulSet + PVC" }]
+    ],
+    docs: [
+      { label: "TP2 · cluster kubeadm", file: "comptes-rendus/02_Kubernetes_Cluster_kubeadm.pdf" },
+      { label: "TP3 · déploiement", file: "comptes-rendus/03_Kubernetes_Deploiement_voting-app.pdf" },
+      { label: "TP4 · configuration et stockage", file: "comptes-rendus/04_Kubernetes_Configuration_Sante_Stockage.pdf" }
+    ]
+  },
+  {
+    id: "supervision-gcp",
+    domaine: "Supervision",
+    titre: "Supervision multi-outils sur GCP : Zabbix, Centreon et Prometheus",
+    date: "Novembre 2025",
+    cadre: "Formation · individuel",
+    statut: "Terminé · une limite",
+    limite: true,
+    resume: "Déployer et comparer plusieurs solutions de supervision sur Google Cloud, superviser une machine cliente et estimer le coût de l'infrastructure.",
+    points: [
+      "Zabbix 7.0 et Centreon 24.10 installés, avec une VM cliente supervisée",
+      "Prometheus en service systemd, pare-feu local et règles de pare-feu VPC",
+      "Estimation des coûts : 4 VM à environ 105 € par mois en continu"
+    ],
+    role: "Travail individuel sur un projet Google Cloud de test.",
+    realisations: [
+      "4 VM Debian 12 sur Compute Engine (serveurs de supervision et machine cliente)",
+      "Zabbix 7.0 avec MariaDB : base dédiée, import du schéma, interface web, agent Zabbix sur la VM cliente",
+      "Changement du mot de passe administrateur par défaut dès la première connexion",
+      "Centreon 24.10 : dépôts, MariaDB sécurisée, installation des modules et ajout de l'hôte client",
+      "Prometheus installé à partir des binaires, avec utilisateur dédié et service systemd",
+      "Pare-feu sur deux couches : UFW sur la VM et règles de pare-feu VPC ciblées par tag réseau",
+      "Estimation avec le calculateur GCP, en distinguant le coût des VM allumées et celui des disques"
+    ],
+    difficultes: [
+      { pb: "Paquets MySQL introuvables en suivant une procédure prévue pour Ubuntu.", sol: "Bascule vers PostgreSQL, puis réinstallation propre de Zabbix 7.0 avec MariaDB sur une nouvelle VM." },
+      { pb: "Interface Zabbix bloquée par une locale manquante sur Debian 12.", sol: "Génération de la locale fr_FR.UTF-8 et redémarrage d'Apache." },
+      { pb: "Grafana actif et joignable en local, mais interface inaccessible depuis le navigateur.", sol: "Limite documentée. Pistes : règle VPC appliquée au bon tag réseau, paramètre http_addr de Grafana.", limite: true }
+    ],
+    resultat: "Zabbix, Centreon et Prometheus opérationnels, une machine cliente supervisée et une estimation chiffrée des coûts de supervision et de maintenance.",
+    technos: ["Google Cloud", "Zabbix", "Centreon", "Prometheus", "Grafana", "MariaDB", "UFW"],
+    diagram: [
+      [{ t: "VM cliente", s: "agent Zabbix" }],
+      [{ t: "Zabbix 7.0", s: "MariaDB" }, { t: "Centreon 24.10", s: "MariaDB" }, { t: "Prometheus", s: "port 9090" }],
+      [{ t: "Pare-feu VPC", s: "règles par tag" }]
+    ],
+    docs: [{ label: "Compte rendu", file: "comptes-rendus/07_GCP_Supervision_Zabbix_Centreon_Prometheus.pdf" }]
+  },
+  {
+    id: "cloud-run",
+    domaine: "Conteneurs",
+    titre: "Conteneuriser une application Flask et la publier sur Cloud Run",
+    date: "Novembre 2025",
+    cadre: "Formation · individuel",
+    statut: "Terminé",
+    resume: "Suivre le cycle complet d'une application cloud native : image Docker, registre privé, puis déploiement serverless accessible en HTTPS.",
+    points: [
+      "Dockerfile pour une application Python Flask servie par gunicorn",
+      "Image construite dans Cloud Shell et poussée dans Artifact Registry",
+      "Service Cloud Run public, avec URL HTTPS générée"
+    ],
+    role: "Travail individuel sur un projet Google Cloud de test.",
+    realisations: [
+      "Application Flask, fichier requirements.txt et Dockerfile basé sur une image Python slim",
+      "Activation de l'API Artifact Registry et création d'un dépôt Docker en europe-west1",
+      "Authentification de Docker auprès du registre, build puis push de l'image avec un tag complet",
+      "Déploiement avec gcloud run deploy, service public (--allow-unauthenticated)"
+    ],
+    difficultes: [
+      { pb: "Build en échec : les fichiers avaient été transférés avec une extension .txt masquée.", sol: "Diagnostic dans Cloud Shell et renommage des trois fichiers avant de relancer le build." }
+    ],
+    resultat: "Application accessible publiquement en HTTPS, sans serveur à administrer.",
+    technos: ["Docker", "Artifact Registry", "Cloud Run", "gcloud", "Python Flask"],
+    diagram: [
+      [{ t: "Code Flask", s: "Dockerfile" }],
+      [{ t: "docker build", s: "Cloud Shell" }],
+      [{ t: "Artifact Registry", s: "europe-west1" }],
+      [{ t: "Cloud Run", s: "URL HTTPS publique" }]
+    ],
+    docs: [{ label: "Compte rendu", file: "comptes-rendus/06_GCP_Conteneur_Cloud_Run.pdf" }]
+  },
+  {
+    id: "wordpress-gcp",
+    domaine: "Google Cloud",
+    titre: "WordPress sur GCP avec Compute Engine et Cloud SQL",
+    date: "Novembre 2025",
+    cadre: "Formation · individuel",
+    statut: "Terminé",
+    resume: "Déployer une application web en séparant le serveur web, sur une VM, de la base de données, sur un service managé.",
+    points: [
+      "VM Debian sur Compute Engine avec pile Apache et PHP",
+      "Base MySQL managée sur Cloud SQL, accès limité à la VM",
+      "WordPress relié à Cloud SQL et accessible publiquement"
+    ],
+    role: "Travail individuel sur un projet Google Cloud de test.",
+    realisations: [
+      "VM Debian e2-micro avec trafic HTTP et HTTPS autorisé par le pare-feu",
+      "Instance Cloud SQL MySQL dans la même région que la VM",
+      "Réseau autorisé limité à l'adresse de la VM (/32) pour l'accès à la base",
+      "Base wordpress_db et utilisateur dédié, avec des droits limités à cette base",
+      "Installation de WordPress, droits www-data et configuration de wp-config.php vers Cloud SQL"
+    ],
+    difficultes: [
+      { pb: "Point d'amélioration identifié : la base est jointe par son adresse IP publique.", sol: "En production, connexion par IP privée ou par Cloud SQL Auth Proxy." }
+    ],
+    resultat: "Assistant d'installation WordPress accessible et connexion à la base Cloud SQL validée.",
+    technos: ["Google Cloud", "Compute Engine", "Cloud SQL", "MySQL", "Apache", "Debian"],
+    diagram: [
+      [{ t: "Internet", s: "HTTP · HTTPS" }],
+      [{ t: "Compute Engine", s: "Debian · Apache · PHP" }],
+      [{ t: "Cloud SQL", s: "MySQL managé" }]
+    ],
+    docs: [{ label: "Compte rendu", file: "comptes-rendus/05_GCP_WordPress_Compute_Engine_Cloud_SQL.pdf" }]
+  },
+  {
+    id: "powershell-ad",
+    domaine: "Windows Server",
+    titre: "Infrastructure Windows Server 2019 déployée en PowerShell",
+    date: "Année 2025-2026",
+    cadre: "Formation · individuel",
+    statut: "Terminé",
+    resume: "Mettre en place les services d'infrastructure d'une petite entreprise uniquement en ligne de commande, pour des déploiements reproductibles.",
+    points: [
+      "AD DS, DNS et DHCP installés et configurés en PowerShell",
+      "Serveur de temps NTP de référence pour le domaine",
+      "GPO créée, liée et testée sans interface graphique"
+    ],
+    role: "Travail individuel en lab sous VMware.",
+    realisations: [
+      "Renommage et adressage IP du serveur avec sconfig et New-NetIPAddress",
+      "Installation d'AD DS et DNS, création de la forêt avec Install-ADDSForest",
+      "Installation du rôle DHCP et jonction d'un client Windows 10 au domaine",
+      "Fuseau horaire et service de temps : serveur configuré comme source NTP du domaine",
+      "GPO « Bloquer le panneau de configuration » créée (New-GPO), liée au domaine (New-GPLink) et configurée (Set-GPRegistryValue)",
+      "Création d'un utilisateur de test et vérification du blocage sur le poste client"
+    ],
+    difficultes: [
+      { pb: "Ping du client bloqué par le pare-feu Windows.", sol: "Pare-feu désactivé temporairement pour le test ; en production, autoriser uniquement la règle ICMP entrante." }
+    ],
+    resultat: "Domaine fonctionnel, client intégré et GPO appliquée, le tout reproductible à partir des commandes documentées.",
+    technos: ["Windows Server 2019", "PowerShell", "Active Directory", "DNS", "DHCP", "GPO", "NTP"],
+    diagram: [
+      [{ t: "PowerShell", s: "scripts de déploiement" }],
+      [{ t: "Windows Server 2019", s: "AD DS · DNS · DHCP · NTP" }],
+      [{ t: "Client Windows 10", s: "membre du domaine · GPO" }]
+    ],
+    docs: [{ label: "Compte rendu", file: "comptes-rendus/08_Windows_Server_Automatisation_PowerShell.pdf" }]
+  },
+  {
+    id: "migration-ad",
+    domaine: "Windows Server",
+    titre: "Migration Active Directory par transfert des rôles FSMO",
+    date: "Octobre 2025",
+    cadre: "Formation · 2 TP · individuel",
+    statut: "Terminé",
+    resume: "Changer de contrôleur de domaine sans interrompre le service : ajout d'un nouveau contrôleur, transfert des rôles, bascule des clients puis retrait de l'ancien serveur.",
+    points: [
+      "Contrôleur de domaine supplémentaire promu dans une forêt existante",
+      "Transfert des 5 rôles FSMO en PowerShell et vérification",
+      "Migration du service DHCP avec export et import de la configuration"
+    ],
+    role: "Travail individuel en lab sous VMware.",
+    realisations: [
+      "Forêt créée sur Windows Server 2016 et client joint au domaine",
+      "Nouveau serveur Windows Server 2019 joint au domaine puis promu contrôleur de domaine supplémentaire",
+      "Transfert des 5 rôles FSMO avec Move-ADDirectoryServerOperationMasterRole, contrôle avec netdom query fsmo",
+      "Nettoyage DNS, bascule du DNS des clients et validation par nslookup et ping",
+      "Second scénario dans l'autre sens, avec migration DHCP : export (netsh), autorisation dans AD (Add-DhcpServerInDC), import et vérification de l'étendue"
+    ],
+    difficultes: [
+      { pb: "Rôle DHCP oublié sur le serveur source avant la migration.", sol: "Installation et configuration de l'étendue sur le serveur source, puis reprise de la procédure d'export." }
+    ],
+    resultat: "Rôles FSMO, DNS et DHCP portés par le nouveau serveur ; l'ancien contrôleur peut être rétrogradé et retiré du réseau.",
+    technos: ["Active Directory", "FSMO", "DNS", "DHCP", "PowerShell", "Windows Server"],
+    diagram: [
+      [{ t: "DC source", s: "Windows Server 2016" }],
+      [{ t: "Transfert FSMO", s: "5 rôles · PowerShell" }, { t: "Migration DHCP", s: "export · import" }],
+      [{ t: "Nouveau DC", s: "Windows Server 2019" }]
+    ],
+    docs: [
+      { label: "Migration 2016 → 2019", file: "comptes-rendus/09_Active_Directory_Migration_FSMO_2016_2019.pdf" },
+      { label: "Migration FSMO et DHCP", file: "comptes-rendus/10_Active_Directory_Migration_FSMO_DHCP.pdf" }
+    ]
+  },
+  {
+    id: "sql-server",
+    domaine: "Bases de données",
+    titre: "Administration SQL Server : stockage, sauvegarde et performance",
+    date: "Janvier 2026",
+    cadre: "Formation · binôme",
+    statut: "Terminé",
+    resume: "Administrer la base d'une boutique en ligne fictive : organisation physique des fichiers, stratégie de sauvegarde testée par un incident réel, puis optimisation des requêtes.",
+    points: [
+      "Base multi-fichiers avec un filegroup dédié aux commandes",
+      "Sauvegardes complète et différentielle, restauration après incident",
+      "Query Store, plan d'exécution et index non cluster"
+    ],
+    role: "Travail en binôme.",
+    realisations: [
+      "Base TechShop_DB multi-fichiers, croissance en Mo maîtrisée, filegroup FG_COMMANDES pour la table volumineuse",
+      "Tables CLIENTS, PRODUITS et COMMANDES avec clés étrangères, vérification de leur répartition par les vues système",
+      "Sauvegarde complète puis différentielle après ajout de commandes",
+      "Incident simulé (suppression de la table COMMANDES) puis restauration en NORECOVERY et RECOVERY",
+      "Activation du Query Store, analyse du plan d'exécution et création d'un index non cluster sur ClientID",
+      "Lecture des wait statistics pour vérifier l'absence de contention"
+    ],
+    difficultes: [
+      { pb: "Recherches par client en lecture complète de la table.", sol: "Index non cluster IX_COMMANDES_ClientID, puis comparaison des plans d'exécution avant et après." }
+    ],
+    resultat: "Toutes les commandes, y compris celles passées après la sauvegarde complète, récupérées après l'incident.",
+    technos: ["SQL Server", "T-SQL", "SSMS", "Sauvegarde", "Query Store", "Index"],
+    diagram: [
+      [{ t: "Sauvegarde FULL", s: "point de référence" }],
+      [{ t: "Sauvegarde DIFF", s: "changements depuis FULL" }],
+      [{ t: "Incident", s: "table supprimée" }],
+      [{ t: "Restauration", s: "NORECOVERY puis RECOVERY" }]
+    ],
+    docs: [{ label: "Compte rendu", file: "comptes-rendus/11_SQL_Server_Administration_TechShop.pdf" }]
+  }
+];
+
+const COMPETENCES = [
+  { titre: "Cloud et identités", items: ["Microsoft Azure", "Google Cloud", "Microsoft 365", "Entra ID", "Intune", "Azure Policy", "RBAC"] },
+  { titre: "Conteneurs", items: ["Docker", "Kubernetes", "kubeadm", "Cloud Run", "Artifact Registry", "Git"] },
+  { titre: "Systèmes", items: ["Windows Server", "Active Directory", "GPO", "PowerShell", "Linux Debian et Ubuntu", "Hyper-V", "VMware ESXi"] },
+  { titre: "Réseau et sécurité", items: ["TCP/IP", "VLAN", "Routage", "SD-WAN", "Pare-feu", "VPN", "MFA", "Accès conditionnel", "SPF, DKIM, DMARC"] },
+  { titre: "Supervision", items: ["Zabbix", "Centreon", "Prometheus", "Grafana"] },
+  { titre: "Bases de données", items: ["SQL Server", "MySQL et MariaDB", "PostgreSQL", "Cloud SQL"] }
+];
+
+const PARCOURS = [
+  { quand: "Oct. 2026 – auj.", poste: "Responsable informatique (alternance)", org: "Sagem Networks", texte: "Référent informatique d'un groupe de trois sociétés : audit et cartographie du SI, feuille de route, Microsoft 365 et Active Directory, sécurisation des accès et pilotage des prestataires." },
+  { quand: "Oct. 2026 – 2028", poste: "Bac+5 Expert en architectures systèmes, réseaux et sécurité", org: "IGENSIA Tech (IPI Lyon)", texte: "Titre RNCP niveau 7 en alternance : architecture, cybersécurité, cloud et orchestration de conteneurs." },
+  { quand: "Sept. 2025 – oct. 2026", poste: "Administrateur réseau et systèmes (alternance)", org: "Interway", texte: "Environ 30 serveurs par mois mis en production pour des grands comptes, virtualisation Hyper-V, masterisation et SD-WAN inter-sites." },
+  { quand: "Sept. 2025 – oct. 2026", poste: "Bac+3 Administrateur systèmes, réseaux et bases de données", org: "IGENSIA Tech (IPI Lyon)", texte: "Titre RNCP niveau 6 obtenu en alternance." },
+  { quand: "Janv. – févr. 2025", poste: "Technicien support et cloud (stage)", org: "Extia", texte: "Comptes et licences Microsoft 365 pour plus de 100 utilisateurs via Entra ID, Intune, accès conditionnel et MFA." },
+  { quand: "Mai 2023 – févr. 2025", poste: "Technicien support et gestion de parc", org: "Hospices Civils de Lyon", texte: "Support N1 et ticketing (environ 20 demandes par jour), cycle de vie du matériel et suivi des prestataires." }
+];
+
+const CERTIFICATIONS = [
+  { nom: "CCNA: Switching, Routing, and Wireless Essentials", org: "Cisco", date: "Septembre 2026" },
+  { nom: "Networking Basics", org: "Cisco", date: "Janvier 2026" },
+  { nom: "Introduction to Cybersecurity", org: "Cisco", date: "Octobre 2025" },
+  { nom: "MOOC SecNumacadémie", org: "ANSSI", date: "Obtenu" },
+  { nom: "Azure Fundamentals (AZ-900)", org: "Microsoft", date: "En préparation", prep: true }
+];
+
+/* ===================================================================== */
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const slugTech = t => t.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9.+]+/g, "-").replace(/^-|-$/g, "");
+
+let filtre = "Tous";
+function renderFilters() {
+  const domaines = ["Tous", ...new Set(PROJETS.map(p => p.domaine))];
+  $("#filters").innerHTML = domaines.map(d => {
+    const n = d === "Tous" ? PROJETS.length : PROJETS.filter(p => p.domaine === d).length;
+    return `<button type="button" class="chip" aria-pressed="${d === filtre}" data-d="${esc(d)}">${esc(d)}<span class="n">${n}</span></button>`;
+  }).join("");
+}
+function renderGrid() {
+  const list = PROJETS.filter(p => filtre === "Tous" || p.domaine === filtre);
+  $("#grid").innerHTML = list.map(p => `
+    <article class="card">
+      <div class="meta"><span>${esc(p.domaine)} · ${esc(p.date)}</span><span class="status${p.limite ? " limit" : ""}">${esc(p.statut)}</span></div>
+      <h3>${esc(p.titre)}</h3>
+      <p>${esc(p.resume)}</p>
+      <ul class="points">${p.points.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+      <ul class="tags">${p.technos.slice(0, 5).map(t => `<li class="tag"><span class="k">tech</span>${esc(slugTech(t))}</li>`).join("")}</ul>
+      <button type="button" class="open" data-id="${p.id}">Voir la fiche détaillée</button>
+    </article>`).join("");
+}
+
+function diagramSVG(cols) {
+  const bw = 170, bh = 52, gx = 46, gy = 14, pad = 8;
+  const maxRows = Math.max(...cols.map(c => c.length));
+  const H = maxRows * bh + (maxRows - 1) * gy + pad * 2;
+  const W = cols.length * bw + (cols.length - 1) * gx + pad * 2;
+  const pos = cols.map((c, i) => {
+    const colH = c.length * bh + (c.length - 1) * gy;
+    const y0 = (H - colH) / 2;
+    return c.map((n, j) => ({ ...n, x: pad + i * (bw + gx), y: y0 + j * (bh + gy) }));
+  });
+  let out = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Schéma d'architecture"><defs><marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8 z" style="fill:var(--muted)"/></marker></defs>`;
+  for (let i = 0; i < pos.length - 1; i++) {
+    for (const a of pos[i]) for (const b of pos[i + 1]) {
+      const x1 = a.x + bw, y1 = a.y + bh / 2, x2 = b.x - 3, y2 = b.y + bh / 2, mx = (x1 + x2) / 2;
+      out += `<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" style="fill:none;stroke:var(--muted);stroke-width:1.2" marker-end="url(#ah)"/>`;
+    }
+  }
+  for (const c of pos) for (const n of c) {
+    out += `<rect x="${n.x}" y="${n.y}" width="${bw}" height="${bh}" rx="5" style="fill:var(--surface);stroke:var(--accent);stroke-width:1.2"/>`;
+    out += `<text x="${n.x + bw / 2}" y="${n.y + 22}" text-anchor="middle" font-family="Archivo, Arial, sans-serif" font-weight="700" font-size="13" style="fill:var(--ink)">${esc(n.t)}</text>`;
+    out += `<text x="${n.x + bw / 2}" y="${n.y + 39}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" style="fill:var(--muted)">${esc(n.s || "")}</text>`;
+  }
+  return out + "</svg>";
+}
+
+const dlg = $("#fiche");
+function openFiche(id, push = true) {
+  const p = PROJETS.find(x => x.id === id);
+  if (!p) return;
+  dlg.innerHTML = `
+    <div class="dlg">
+      <div class="dlg-head">
+        <div style="display:grid;gap:.5rem;min-width:0">
+          <span class="status${p.limite ? " limit" : ""}" style="justify-self:start">${esc(p.statut)}</span>
+          <h3 id="fiche-titre">${esc(p.titre)}</h3>
+        </div>
+        <button type="button" class="close" aria-label="Fermer la fiche">✕</button>
+      </div>
+      <dl class="facts">
+        <div><dt>Domaine</dt><dd>${esc(p.domaine)}</dd></div>
+        <div><dt>Date</dt><dd>${esc(p.date)}</dd></div>
+        <div><dt>Cadre</dt><dd>${esc(p.cadre)}</dd></div>
+      </dl>
+      <div class="block"><h4>Contexte</h4><p>${esc(p.resume)}</p></div>
+      ${p.role ? `<div class="block"><h4>Organisation</h4><p>${esc(p.role)}</p></div>` : ""}
+      ${p.diagram ? `<div class="block"><h4>Architecture</h4><div class="diagram">${diagramSVG(p.diagram)}</div></div>` : ""}
+      <div class="block"><h4>Ce que j'ai réalisé</h4><ul>${p.realisations.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>
+      <div class="block"><h4>Difficultés rencontrées</h4>${p.difficultes.map(d => `<div class="issue${d.limite ? " limit" : ""}"><span><b>Problème :</b> ${esc(d.pb)}</span><span><b>${d.limite ? "Suite à donner" : "Solution"} :</b> ${esc(d.sol)}</span></div>`).join("")}</div>
+      <div class="block"><h4>Résultat</h4><p>${esc(p.resultat)}</p></div>
+      <ul class="tags">${p.technos.map(t => `<li class="tag"><span class="k">tech</span>${esc(slugTech(t))}</li>`).join("")}</ul>
+      <div class="block"><h4>Comptes rendus</h4><div class="docs">${p.docs.map(d => `<a class="btn ghost" href="${esc(d.file)}" target="_blank" rel="noopener">${esc(d.label)} (PDF)</a>`).join("")}</div></div>
+    </div>`;
+  $(".close", dlg).addEventListener("click", closeFiche);
+  if (!dlg.open) dlg.showModal();
+  dlg.scrollTop = 0;
+  if (push && location.hash !== "#" + id) history.replaceState(null, "", "#" + id);
+}
+function closeFiche() {
+  if (dlg.open) dlg.close();
+}
+dlg.addEventListener("close", () => {
+  if (PROJETS.some(p => "#" + p.id === location.hash)) history.replaceState(null, "", "#projets");
+});
+dlg.addEventListener("click", e => { if (e.target === dlg) closeFiche(); });
+
+$("#filters").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  filtre = b.dataset.d; renderFilters(); renderGrid();
+});
+$("#grid").addEventListener("click", e => {
+  const b = e.target.closest(".open"); if (b) openFiche(b.dataset.id);
+});
+
+$("#skills").innerHTML = COMPETENCES.map(c => `<div><h3>${esc(c.titre)}</h3><ul>${c.items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div>`).join("");
+$("#timeline").innerHTML = PARCOURS.map(p => `<li><span class="when">${esc(p.quand)}</span><div><h3>${esc(p.poste)}</h3><span class="org">${esc(p.org)}</span><p>${esc(p.texte)}</p></div></li>`).join("");
+$("#certs").innerHTML = CERTIFICATIONS.map(c => `<li class="${c.prep ? "prep" : ""}"><span class="issuer">${esc(c.org)}</span><span class="name">${esc(c.nom)}</span><span class="date">${esc(c.date)}</span></li>`).join("");
+
+$("#copy-mail").addEventListener("click", () => {
+  const txt = $("#mail").textContent.trim();
+  const ok = () => { const c = $("#copied"); c.hidden = false; setTimeout(() => { c.hidden = true; }, 2500); };
+  const fallback = () => { const r = document.createRange(); r.selectNodeContents($("#mail")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+  try { navigator.clipboard.writeText(txt).then(ok, fallback); } catch (e) { fallback(); }
+});
+
+/* Adresse reconstituée par le script pour limiter la collecte automatique par les robots */
+(() => { const m = $("#mail"); m.textContent = m.dataset.u + "@" + m.dataset.d; })();
+renderFilters();
+renderGrid();
+function fromHash() {
+  const id = location.hash.slice(1);
+  if (PROJETS.some(p => p.id === id)) openFiche(id, false);
+}
+window.addEventListener("hashchange", fromHash);
+fromHash();
+</script>
